@@ -5,6 +5,7 @@ import InputMask from "react-input-mask";
 import { useEffect } from 'react';
 import Button from './components/button';
 import { useRouter } from 'next/router';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -25,34 +26,47 @@ export default function Home() {
 
   return (
     <main className={`${poppins.className} h-screen grid grid-cols-2`}>
+      {/* Divide a main em duas colunas */}
 
       {/* Coluna da imagem e textos */}
       <div className="flex flex-col items-center justify-center" style={{ backgroundColor: '#CDF3FF' }}>
-        <Image
-          src={logoHBI}
-          alt="Logo da empresa HBI"
-          width={400}
-          height={400}
-        />
-        <h1 className="text-4xl mt-4" style={{ color: '#000A65' }}>Bancarizar é o mínimo.</h1>
-        <h1 className="text-4xl" style={{ color: '#000A65' }}>
-          Nós fazemos o <strong className="text-4xl font-bold" style={{ color: '#000A65' }}>máximo</strong>.
-        </h1>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key="logohbi"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Image
+              src={logoHBI}
+              alt="Logo da empresa HBI"
+              width={400}
+              height={400}
+            />
+
+            <h1 className="text-4xl mt-4" style={{ color: '#000A65' }}>Bancarizar é o mínimo.</h1>
+            <h1 className="text-4xl" style={{ color: '#000A65' }}>
+              Nós fazemos o <strong className="text-4xl font-bold" style={{ color: '#000A65' }}>máximo</strong>.
+            </h1>
+          </motion.div>
+        </AnimatePresence>
+
       </div>
 
       {/* Coluna do formulário de login */}
       <div className="flex items-center justify-center" style={{ backgroundColor: '#CDF3FF' }}>
-        <form className="bg-white p-8 rounded-lg shadow-md w-96">
-          <h2 className="text-2xl text-gray-900 mb-4" style={{ color: '#000A65' }}>Login</h2>
+        <form className="bg-white p-8 rounded-lg shadow-md w-96 border" style={{ borderColor: '#14E2C3' }}>
+          <h2 className="text-2xl mb-4" style={{ color: '#000A65' }}>Login</h2>
           <InputMask
             mask="999.999.999-99"
-            className="w-full p-3 border border-gray-300 rounded-lg mb-4"
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-gray-300" style={{ color: '#000A65' }}
             placeholder="CPF"
           />
           <input
             type="password"
             placeholder="Senha"
-            className="w-full p-3 border border-gray-300 rounded-lg mb-4"
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-gray-300" style={{ color: '#000A65' }}
           />
 
           <div className="flex items-center justify-center">
