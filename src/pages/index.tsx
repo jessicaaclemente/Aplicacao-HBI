@@ -1,11 +1,13 @@
 import Image from 'next/image';
 import logoHBI from './assets/logoHBI.png';
 import { Poppins } from 'next/font/google';
-import InputMask from "react-input-mask";
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Button from './components/button';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
+import { IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import CustomInput from './components/input';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -13,6 +15,10 @@ const poppins = Poppins({
 });
 
 export default function Home() {
+
+  const [password, setPassword] = useState('');
+  const [CPF, setCPF] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
 
@@ -58,16 +64,39 @@ export default function Home() {
       <div className="flex items-center justify-center" style={{ backgroundColor: '#CDF3FF' }}>
         <form className="bg-white p-8 rounded-lg shadow-md w-96 border" style={{ borderColor: '#14E2C3' }}>
           <h2 className="text-2xl mb-4" style={{ color: '#000A65' }}>Login</h2>
-          <InputMask
-            mask="999.999.999-99"
-            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-gray-300" style={{ color: '#000A65' }}
-            placeholder="CPF"
-          />
-          <input
-            type="password"
-            placeholder="Senha"
-            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-gray-300" style={{ color: '#000A65' }}
-          />
+
+          <div className="mb-5">
+            <CustomInput
+              label="CPF"
+              color="primary"
+              focused
+              value={CPF}
+              mask="999.999.999-99"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCPF(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-5">
+            <CustomInput
+              label="Senha"
+              color="primary"
+              focused
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPassword(prev => !prev)} edge="end">
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+          </div>
 
           <div className="flex items-center justify-center">
             <Button label='Entrar' onClick={() => {
