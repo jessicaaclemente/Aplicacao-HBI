@@ -15,7 +15,6 @@ export default function Transacoes() {
   const [transacoes, setTransacoes] = useState<Transacao[]>([]);
   const [valorTransacao, setValorTransacao] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [bloquearDescricao, setBloquearDescricao] = useState(false);
 
   const router = useRouter();
 
@@ -46,28 +45,25 @@ export default function Transacoes() {
     setSaldo(novoSaldo);
     localStorage.setItem("saldo", novoSaldo.toString());
 
-    if (tipo === "saida") {
-      const novaTransacao: Transacao = {
-        id: transacoes.length + 1,
-        data: new Date().toLocaleDateString(),
-        valor: -valor,
-        descricao: descricao,
-      };
-
-      const novasTransacoes = [novaTransacao, ...transacoes];
-      setTransacoes(novasTransacoes);
-      localStorage.setItem("transacoes", JSON.stringify(novasTransacoes));
+    const novaTransacao: Transacao = {
+      id: transacoes.length + 1,
+      data: new Date().toLocaleDateString(),
+      valor: tipo === "entrada" ? valor : -valor,
+      descricao: tipo === "entrada" ? "" : descricao
     }
 
     setValorTransacao("");
-    setDescricao("");
-    setBloquearDescricao(tipo === "entrada");
+
+    const novasTransacoes = [novaTransacao, ...transacoes];
+    setTransacoes(novasTransacoes);
+    localStorage.setItem("transacoes", JSON.stringify(novasTransacoes));
+
   };
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-20" style={{ backgroundColor: '#CDF3FF' }}>
       <nav className="fixed top-0 left-0 w-full text-white p-4 z-10 shadow-md flex items-center justify-between" style={{ backgroundColor: '#000A65' }}>
-      
+
         <div>
           <h1 className="text-xl font-bold">{`Olá, ${usuario.nome}`}</h1>
           <p className="text-lg">Saldo: R$ {saldo.toFixed(2)}</p>
@@ -113,7 +109,6 @@ export default function Transacoes() {
           onChange={(e) => setDescricao(e.target.value)}
           placeholder="Digite a descrição"
           className="border border-gray-300 p-2 rounded-lg w-full text-center mt-2"
-          disabled={bloquearDescricao}
         />
 
         <div className="mt-4 flex flex-col gap-2">

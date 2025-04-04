@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import logoHBI from '../assets/logoHBI.png';
+import logoHBI from './assets/logoHBI.png';
 import { Poppins } from 'next/font/google';
 import InputMask from "react-input-mask";
 import { useEffect } from 'react';
