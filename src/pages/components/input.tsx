@@ -9,9 +9,6 @@ interface InputProps {
   value?: string;
   mask?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  slotProps?: {
-    input?: object;
-  };
 }
 
 export default function CustomInput({
@@ -21,7 +18,6 @@ export default function CustomInput({
   type = 'text',
   value,
   onChange,
-  slotProps,
   mask,
 }: InputProps) {
   if (mask) {
@@ -33,15 +29,8 @@ export default function CustomInput({
             color={color}
             focused={focused}
             type={type}
-            value={value}
-            onChange={onChange}
-            slotProps={{
-              input: {
-                ...inputProps,
-                ...(slotProps?.input || {}),
-              },
-            }}
             fullWidth
+            {...inputProps}
           />
         )}
       </InputMask>
@@ -56,7 +45,6 @@ export default function CustomInput({
       type={type}
       value={value}
       onChange={onChange}
-      slotProps={slotProps}
       fullWidth
     />
   );
